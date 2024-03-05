@@ -1,15 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDishDto } from './dto/create-dish.dto';
 import { UpdateDishDto } from './dto/update-dish.dto';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class DishesService {
+  constructor(@InjectModel('dishes') private  DishesModel) {}
   create(createDishDto: CreateDishDto) {
     return 'This action adds a new dish';
   }
 
   findAll() {
-    return `This action returns all dishes`;
+    return this.DishesModel.find({});
   }
 
   findOne(id: number) {

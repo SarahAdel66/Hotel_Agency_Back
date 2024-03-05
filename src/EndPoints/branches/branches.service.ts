@@ -1,15 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBranchDto } from './dto/create-branch.dto';
 import { UpdateBranchDto } from './dto/update-branch.dto';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class BranchesService {
+  constructor(@InjectModel('branches') private  BranchesModel) {}
   create(createBranchDto: CreateBranchDto) {
     return 'This action adds a new branch';
   }
 
   findAll() {
-    return `This action returns all branches`;
+    return this.BranchesModel.find({});
   }
 
   findOne(id: number) {
