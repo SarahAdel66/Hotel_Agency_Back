@@ -6,7 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { RegAuthDto } from './dto/reg-auth.dto';
 import * as bcrypt from 'bcrypt';
 import { LoginAuthDto } from './dto/login-auth.dto';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -35,14 +35,26 @@ export class AuthService {
     if(!foundUser) return {message:"Invalid Email or Password"};
     const validPassword = await bcrypt.compare(loginAuthDto.password, foundUser.password);
     if (!validPassword) return {message:'Invalid Email or Password'};
-    let token=this.jwtService.sign({name:foundUser.name,isAdmin:foundUser.isAdmin},{secret:"hotelSecret"})
+    let token=this.jwtService.sign({name:foundUser.name,isAdmin:foundUser.isAdmin,id:foundUser._id},{secret:"hotelSecret"})
     res.cookie("Authorization",token)
    return {message:"Logged In Successfully"}
 
   }
-
+  async Logout(res:Response){
+    res.clearCookie("Authorization");
+    return {message:"Logged Out Successfully"}
+  }
   findAll() {
     return this.UserModel.find({});
+  }
+  async getCurrentUser(req:Request) {
+    let cookie = req.cookies['Authorization'] ;
+    if(!cookie) return {message:'UnAuthorized'};
+    const data = await this.jwtService.verify(cookie);
+    if(!data) return {message:'UnAuthorized'};
+    let user = await this.UserModel.findById(data.id)
+    const {password, ...result} = user
+    return result._doc;
   }
 
   async findOne(id: number) {

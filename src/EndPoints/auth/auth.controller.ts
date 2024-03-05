@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, Res, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
@@ -6,6 +6,7 @@ import { RegAuthDto } from './dto/reg-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { UserRoles } from './roles.decorator';
 import { Role } from './roles.enum';
+import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -21,9 +22,19 @@ export class AuthController {
   Login(@Body() loginAuthDto: LoginAuthDto,@Res({passthrough:true}) res) {
     return this.authService.Login(loginAuthDto,res);
   }
+  @UsePipes(ValidationPipe)
+  @Post('logout')
+  Logout(@Res({passthrough:true}) res) {
+    return this.authService.Logout(res);
+  }
   @Get()
   findAll() {
     return this.authService.findAll();
+  }
+
+  @Get('currentUser')
+  findCurrentUser(@Req() req:Request){
+    return this.authService.getCurrentUser(req);
   }
 
   @Get(':id')
