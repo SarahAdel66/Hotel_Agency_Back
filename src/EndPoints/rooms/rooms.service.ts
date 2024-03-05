@@ -26,7 +26,7 @@ export class RoomsService {
     return this.RoomModel.find({})
   }
 
-  async findRoomsByPriceRange(minPrice: number, maxPrice: number) {
+   findRoomsByPriceRange(minPrice: number, maxPrice: number) {
 
     const priceFilter = { basePrice: { $gte: minPrice, $lte: maxPrice }};
     return this.RoomModel.find(priceFilter).exec();

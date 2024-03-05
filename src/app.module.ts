@@ -11,6 +11,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './EndPoints/auth/roles.guard';
 import { ReviewForRoomsModule } from './EndPoints/review-for-rooms/review-for-rooms.module';
+import { ReviewsForHotelModule } from './EndPoints/reviews-for-hotel/reviews-for-hotel.module';
 
 @Module({
   imports: [
@@ -20,9 +21,9 @@ import { ReviewForRoomsModule } from './EndPoints/review-for-rooms/review-for-ro
     BranchesModule,
     AuthModule,
     ReviewForRoomsModule,
+    ReviewsForHotelModule,
     MongooseModule.forRoot('mongodb+srv://sarahadel263:8yuG7fLrqzbGFxcz@cluster0.ekxfmem.mongodb.net/hotelWebsite'),
     JwtModule.register({secret:"hotelSecret",signOptions:{expiresIn:"10d"}})    
-
   ],
   controllers: [AppController],
   providers: [AppService,
