@@ -7,6 +7,7 @@ import { RoomsModule } from './EndPoints/rooms/rooms.module';
 import { EventsModule } from './EndPoints/events/events.module';
 import { DishesModule } from './EndPoints/dishes/dishes.module';
 import { BranchesModule } from './EndPoints/branches/branches.module';
+import { ReviewsForHotelModule } from './EndPoints/reviews-for-hotel/reviews-for-hotel.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { BranchesModule } from './EndPoints/branches/branches.module';
     EventsModule,
     DishesModule,
     BranchesModule,
+    ReviewsForHotelModule,
     MongooseModule.forRoot('mongodb+srv://sarahadel263:8yuG7fLrqzbGFxcz@cluster0.ekxfmem.mongodb.net/hotelWebsite')
   ],
   controllers: [AppController],
