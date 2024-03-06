@@ -50,13 +50,15 @@ export class AuthService {
   async getCurrentUser(req:Request) {
     try{
       let cookie = req.cookies['Authorization'] ;
-    // if(!cookie) return {message:'UnAuthorized'};
-    const data = await this.jwtService.verify(cookie);
-    if(!data) throw new UnauthorizedException();
-    let user = await this.UserModel.findById(data.id)
-    const {_doc} = user
-    const {password, ...result} = _doc;
-    return result;
+      if(!cookie) console.log("a7a");;
+
+      const data = await this.jwtService.verify(cookie);
+      if(!data) {console.log("a7ten");
+       throw new UnauthorizedException()};
+      let user = await this.UserModel.findById(data.id)
+      const {_doc} = user
+      const {password, ...result} = _doc;
+      return result;
     }catch(e){  
       throw new UnauthorizedException();
     }
