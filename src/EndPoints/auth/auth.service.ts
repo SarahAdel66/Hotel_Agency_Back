@@ -36,7 +36,7 @@ export class AuthService {
     const validPassword = await bcrypt.compare(loginAuthDto.password, foundUser.password);
     if (!validPassword) return {message:'Invalid Email or Password'};
     let token=this.jwtService.sign({name:foundUser.name,isAdmin:foundUser.isAdmin,id:foundUser._id},{secret:"hotelSecret"})
-    res.cookie("Authorization",token,{httpOnly:false,sameSite:"none"})
+    res.cookie("Authorization",token,{httpOnly:true,sameSite:"none",secure:false})
    return {message:"Logged In Successfully"}
 
   }
