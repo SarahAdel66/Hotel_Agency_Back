@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -36,7 +36,7 @@ export class AuthService {
     const validPassword = await bcrypt.compare(loginAuthDto.password, foundUser.password);
     if (!validPassword) return {message:'Invalid Email or Password'};
     let token=this.jwtService.sign({name:foundUser.name,isAdmin:foundUser.isAdmin,id:foundUser._id},{secret:"hotelSecret"})
-    res.cookie("Authorization",token)
+    res.cookie("Authorization",token,{httpOnly:true})
    return {message:"Logged In Successfully"}
 
   }
@@ -48,18 +48,23 @@ export class AuthService {
     return this.UserModel.find({});
   }
   async getCurrentUser(req:Request) {
-    let cookie = req.cookies['Authorization'] ;
-    if(!cookie) return {message:'UnAuthorized'};
+    try{
+      let cookie = req.cookies['Authorization'] ;
+    // if(!cookie) return {message:'UnAuthorized'};
     const data = await this.jwtService.verify(cookie);
-    if(!data) return {message:'UnAuthorized'};
+    if(!data) throw new UnauthorizedException();
     let user = await this.UserModel.findById(data.id)
-    const {password, ...result} = user
-    return result._doc;
+    const {_doc} = user
+    const {password, ...result} = _doc;
+    return result;
+    }catch(e){  
+      throw new UnauthorizedException();
+    }
   }
 
   async findOne(id: number) {
     var founded = await  this.UserModel.findById(id)
-    if(founded)return founded;
+    if(founded) return founded;
     return{message:"Customer Not Found"}
   }
 
