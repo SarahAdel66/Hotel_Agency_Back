@@ -41,7 +41,7 @@ export class AuthService {
 
   }
   async Logout(res:Response){
-    res.clearCookie("Authorization");
+    res.clearCookie("Authorization",{httpOnly:true, sameSite:"none", secure: true})
     // browser.cookies.remove("Authorization")
     return {message:"Logged Out Successfully"}
   }
