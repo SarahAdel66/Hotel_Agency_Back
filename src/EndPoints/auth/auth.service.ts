@@ -42,6 +42,7 @@ export class AuthService {
   }
   async Logout(res:Response){
     res.clearCookie("Authorization");
+    // browser.cookies.remove("Authorization")
     return {message:"Logged Out Successfully"}
   }
   findAll() {
@@ -50,11 +51,8 @@ export class AuthService {
   async getCurrentUser(req:Request) {
     try{
       let cookie = req.cookies['Authorization'] ;
-      if(!cookie) console.log("a7a");;
-
       const data = await this.jwtService.verify(cookie);
-      if(!data) {console.log("a7ten");
-       throw new UnauthorizedException()};
+      if(!data) {throw new UnauthorizedException()};
       let user = await this.UserModel.findById(data.id)
       const {_doc} = user
       const {password, ...result} = _doc;
