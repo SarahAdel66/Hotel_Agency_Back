@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
   app.enableCors({
-    origin:"https://front-final.onrender.com",
+    origin:["https://front-final.onrender.com","http://localhost:4200"],
     credentials:true
   });
   await app.listen(3000);
