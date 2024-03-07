@@ -12,5 +12,6 @@ export let RoomSchema = new mongoose.Schema({
     services: { type: [String], required: true },
     description: { type: String, required: true },
     rating: { type: Number, required: true },
-
+    branchId:{type:Number, required:true},
+    quantity:{type:Number, required:true}
 })

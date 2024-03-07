@@ -46,4 +46,11 @@ export class RoomsService {
     
  this.RoomModel.deleteOne({ _id: id }).exec()
     return { message: "Deleted Successfully" };  }
+    
+    findBranchesOfRoom(branchId: number) {
+
+      const matchedRoom = this.RoomModel.find({ branchId:branchId })
+          return matchedRoom;
+       }
 }
+

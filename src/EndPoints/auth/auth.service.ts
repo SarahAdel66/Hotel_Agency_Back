@@ -58,7 +58,7 @@ export class AuthService {
       const {password, ...result} = _doc;
       return result;
     }catch(e){  
-      throw new UnauthorizedException();
+      {throw new UnauthorizedException()};
     }
   }
 
