@@ -47,8 +47,8 @@ export class RoomsController {
     return this.roomsService.remove(+id);
   }
   @Get('branches/:branchId')
-  findBranchesOfRoom(@Param('branchId') branchId: string){
-      return this.roomsService.findBranchesOfRoom(+branchId)
+  findRoomsByBranch(@Param('branchId') branchId: string){
+      return this.roomsService.findRoomsByBranch(+branchId)
     }
 }
 

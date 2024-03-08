@@ -39,4 +39,6 @@ export class RoomWithDto {
 
     // @IsNotEmpty()
     rating: number;
+    branchId:number;
+    quantity:number;
 }

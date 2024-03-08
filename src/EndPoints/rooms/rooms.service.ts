@@ -26,7 +26,7 @@ export class RoomsService {
     return this.RoomModel.find({})
   }
 
-   findRoomsByPriceRange(minPrice: number, maxPrice: number) {
+  findRoomsByPriceRange(minPrice: number, maxPrice: number) {
 
     const priceFilter = { basePrice: { $gte: minPrice, $lte: maxPrice }};
     return this.RoomModel.find(priceFilter).exec();
@@ -36,21 +36,20 @@ export class RoomsService {
     return this.RoomModel.findOne({ _id: id })
   }
 
- async update(id: number, room: RoomWithDto) {
+  async update(id: number, room: RoomWithDto) {
 
   await this.RoomModel.updateOne({ _id: id }, room)
   return { message: "Updated Successfully" };
   }
 
   remove(id: number) {
+    this.RoomModel.deleteOne({ _id: id }).exec()
+    return { message: "Deleted Successfully" };  
+  }
     
- this.RoomModel.deleteOne({ _id: id }).exec()
-    return { message: "Deleted Successfully" };  }
-    
-    findBranchesOfRoom(branchId: number) {
-
-      const matchedRoom = this.RoomModel.find({ branchId:branchId })
-          return matchedRoom;
-       }
+  async findRoomsByBranch(branchId: number) {
+    const matchedRooms = await this.RoomModel.find({ branchId:branchId })
+    return matchedRooms;
+  }
 }
 

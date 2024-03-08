@@ -16,7 +16,7 @@ export class RolesGuard implements CanActivate {
     if (!requiredRoles) {
       return true;
     }
-    let token= context.switchToHttp().getRequest().header('Authorization')
+    let token= context.switchToHttp().getRequest().cookies['Authorization']
     if(!token) return false;
     let data = this.jwtService.verify(token)
     if(data.isAdmin){

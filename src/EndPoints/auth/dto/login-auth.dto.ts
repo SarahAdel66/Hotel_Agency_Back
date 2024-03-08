@@ -8,4 +8,4 @@ export class LoginAuthDto {
     @IsNotEmpty()
     @MinLength(8)
     password:string
-}
+}   

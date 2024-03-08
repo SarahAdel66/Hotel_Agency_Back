@@ -14,6 +14,7 @@ export class RegAuthDto {
     @MinLength(8)
     password:string
     @IsString()
+    @IsOptional()
     image:string
     @IsBoolean()
     @IsOptional()
