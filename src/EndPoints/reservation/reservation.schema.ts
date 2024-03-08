@@ -7,7 +7,6 @@ export let ReservationSchema = new mongoose.Schema({
     checkOutDate:Date,
     roomId:Number,
     roomsNo:Number,
-    guestNo:Number,
     roomPrice:Number,
     totalPrice:Number
 

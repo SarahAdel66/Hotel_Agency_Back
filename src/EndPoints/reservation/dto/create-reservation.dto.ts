@@ -22,9 +22,6 @@ export class CreateReservationDto {
     roomsNo:number;
     @IsNumber()
     @IsNotEmpty()
-    guestNo:number;
-    @IsNumber()
-    @IsNotEmpty()
     roomPrice:number
     @IsNumber()
     @IsNotEmpty()
