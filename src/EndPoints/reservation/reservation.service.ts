@@ -6,37 +6,29 @@ import { RoomsService } from '../rooms/rooms.service';
 
 @Injectable()
 export class ReservationService {
-  constructor(@InjectModel('reservation') private ReservationModel,private  roomService:RoomsService) {}
+  constructor(@InjectModel('reservations') private ReservationModel,private  roomService:RoomsService) {}
 
-  // private async reserve(createReservationDto:CreateReservationDto,roomToReserve:any){
-
-  //   return newReservation;
-  // }
+  private async reserve(createReservationDto:CreateReservationDto,roomToReserve:any){
+    var maxIdReservation = await this.ReservationModel.findOne({}, { _id: 1 }, { sort: { _id: -1 } });
+    var maxId = maxIdReservation ? maxIdReservation._id : 0;
+    createReservationDto._id = maxId+1;
+    let newReservation = new this.ReservationModel(createReservationDto);
+    await newReservation.save();
+    roomToReserve.quantity -= createReservationDto.roomsNo;
+    await this.roomService.update(createReservationDto.roomId, roomToReserve);
+    return newReservation;
+  }
 
   async create(createReservationDto: CreateReservationDto) {
     let roomToReserve = await this.roomService.findOne(createReservationDto.roomId);
-    console.log(roomToReserve); 
     let willBeAvailable=roomToReserve.quantity;
     if(roomToReserve.quantity < createReservationDto.roomsNo){
-      console.log("from 1");
       let validRooms= await this.ReservationModel.find({checkOutDate :{$lte : createReservationDto.checkInDate},roomId:createReservationDto.roomId})
       if(validRooms.length === 0)return {message:"Room Not Available At this time"}
       validRooms.forEach((element:CreateReservationDto) => {willBeAvailable+= element.roomsNo})
     }
     if(willBeAvailable < createReservationDto.roomsNo)return {message:"Room Not Available At this time"}
-    console.log("from 2");
-    var maxIdReservation = await this.ReservationModel.findOne({}, { _id: 1 }, { sort: { _id: -1 } });
-    console.log("from 3");
-    var maxId = maxIdReservation ? maxIdReservation : 0;
-    console.log("from 4");
-
-    createReservationDto._id = maxId+1;
-    console.log("from 5");
-    let newReservation = new this.ReservationModel(createReservationDto);
-    await newReservation.save();
-    roomToReserve.quantity -= createReservationDto.roomsNo;
-    await this.roomService.update(createReservationDto.roomId, roomToReserve);
-    // let newReservation = await this.reserve(createReservationDto,roomToReserve)
+    let newReservation = await this.reserve(createReservationDto,roomToReserve)
     return {message:"Reservation Success", data:newReservation};
   }
 

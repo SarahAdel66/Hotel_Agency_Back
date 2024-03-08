@@ -7,8 +7,9 @@ import { RoomsModule } from '../rooms/rooms.module';
 
 @Module({
   imports:[
-    MongooseModule.forFeature([{name:"reservation",schema:ReservationSchema}]),
-    RoomsModule],
+    MongooseModule.forFeature([{name:"reservations",schema:ReservationSchema}]),
+    RoomsModule
+],
   controllers: [ReservationController],
   providers: [ReservationService],
 })
