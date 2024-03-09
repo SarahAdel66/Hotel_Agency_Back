@@ -15,6 +15,7 @@ export class ReservationService {
     let newReservation = new this.ReservationModel(createReservationDto);
     await newReservation.save();
     roomToReserve.quantity -= createReservationDto.roomsNo;
+    console.log(roomToReserve);
     await this.roomService.update(createReservationDto.roomId, roomToReserve);
     return newReservation;
   }
