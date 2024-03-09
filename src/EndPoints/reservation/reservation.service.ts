@@ -21,7 +21,8 @@ export class ReservationService {
 
   async create(createReservationDto: CreateReservationDto) {
     let roomToReserve = await this.roomService.findOne(createReservationDto.roomId);
-    let willBeAvailable=roomToReserve.quantity;
+    console.log(roomToReserve);    
+    let willBeAvailable = roomToReserve.quantity;
     if(roomToReserve.quantity < createReservationDto.roomsNo){
       let validRooms= await this.ReservationModel.find({checkOutDate :{$lte : createReservationDto.checkInDate},roomId:createReservationDto.roomId})
       if(validRooms.length === 0)return {message:"Room Not Available At this time"}
