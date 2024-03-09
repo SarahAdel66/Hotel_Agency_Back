@@ -37,7 +37,7 @@ export class AuthService {
     if (!validPassword) return {message:'Invalid Email or Password'};
     let token=this.jwtService.sign({name:foundUser.name,isAdmin:foundUser.isAdmin,id:foundUser._id},{secret:"hotelSecret"})
     res.cookie("Authorization",token,{httpOnly:true,sameSite:"none",secure:true})
-   return {message:"Logged In Successfully"}
+   return {message:"Logged In Successfully",data:foundUser}
 
   }
   async Logout(res:Response){
