@@ -14,8 +14,10 @@ export class BranchesService {
     return this.BranchesModel.find({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} branch`;
+  async findOne(id: number) {
+    let founded = await this.BranchesModel.findById(id);
+    if(!founded) return  {message:"Branches Not Found"};
+    return founded;
   }
 
   update(id: number, updateBranchDto: UpdateBranchDto) {
