@@ -8,6 +8,6 @@ export let ReservationSchema = new mongoose.Schema({
     roomId:Number,
     roomsNo:Number,
     roomPrice:Number,
-    totalPrice:Number
-
+    totalPrice:Number,
+    branchName:String
 })

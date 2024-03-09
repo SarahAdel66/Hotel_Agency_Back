@@ -26,4 +26,7 @@ export class CreateReservationDto {
     @IsNumber()
     @IsNotEmpty()
     totalPrice:number
+    @IsString()
+    @IsNotEmpty()
+    branchName:string
 }
