@@ -91,6 +91,7 @@ export class ReservationService {
   }
 
   async update(id: number, updateReservationDto: UpdateReservationDto) {
+    updateReservationDto._id = id;
     let Available = (await this.checkAvailability(updateReservationDto)).message
     if(Available) return {message:Available}
     let updatedReservation = await this.ReservationModel.findByIdAndUpdate(id,updateReservationDto,{new:true,runValidators:true})
