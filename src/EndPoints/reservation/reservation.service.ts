@@ -23,10 +23,13 @@ export class ReservationService {
   private async checkAvailability(createReservationDto:any){
     let roomToReserve = await this.roomService.findOne(createReservationDto.roomId);
     let reservationForThisRoom=[];
+
     if(createReservationDto._id){
-      reservationForThisRoom = await this.ReservationModel.find({roomId:createReservationDto.roomId,_id:{$ne : createReservationDto._id}},);
+      reservationForThisRoom = await this.ReservationModel.find({roomId:createReservationDto.roomId,_id:{$ne : createReservationDto._id}});
+      console.log("cool ia m here");
     }else{
       reservationForThisRoom = await this.ReservationModel.find({roomId:createReservationDto.roomId},);
+      console.log("i am here (;");
     }
     if(roomToReserve.quantity  < createReservationDto.roomsNo)return {message:`we only have ${roomToReserve.quantity}  rooms from  this type`}
     if(reservationForThisRoom.length !== 0){
