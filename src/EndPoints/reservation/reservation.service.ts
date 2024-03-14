@@ -21,11 +21,13 @@ export class ReservationService {
     return newReservation;
   }
   private async checkAvailability(createReservationDto:any){
-    let roomToReserve = await this.roomService.findOne(createReservationDto.roomId); 
-    // console.log(createReservationDto);
-    let reservationForThisRoom = await this.ReservationModel.find({roomId:createReservationDto.roomId});
-    console.log(reservationForThisRoom);
-    
+    let roomToReserve = await this.roomService.findOne(createReservationDto.roomId);
+    let reservationForThisRoom=[];
+    if(createReservationDto._id){
+      reservationForThisRoom = await this.ReservationModel.find({roomId:createReservationDto.roomId,_id:{$ne : createReservationDto._id}},);
+    }else{
+      reservationForThisRoom = await this.ReservationModel.find({roomId:createReservationDto.roomId},);
+    }
     if(roomToReserve.quantity  < createReservationDto.roomsNo)return {message:`we only have ${roomToReserve.quantity}  rooms from  this type`}
     if(reservationForThisRoom.length !== 0){
       let validRooms= await this.ReservationModel.find({checkOutDate :{$lte : createReservationDto.checkInDate,$ne : createReservationDto.checkInDate},roomId:createReservationDto.roomId})
@@ -47,7 +49,6 @@ export class ReservationService {
         available += willBeAvailable 
         if(available < 1)return {message:`we dont have rooms from  this type At this time`}
         if(available < createReservationDto.roomsNo)return {message:`we only have ${available}  rooms from  this type At this time`}
-      
       }
     }
     return {message:undefined}
