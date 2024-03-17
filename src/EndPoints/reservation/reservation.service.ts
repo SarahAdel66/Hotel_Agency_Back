@@ -45,7 +45,7 @@ export class ReservationService {
         currentlyReserved -=  notAffectingRoomsNo
         willBeAvailable = roomToReserve.quantity - currentlyReserved
         if(willBeAvailable < 1){return {message:`we dont have rooms from  this type At this time`}}
-        if(willBeAvailable < createReservationDto.roomsNo) return {message:`we only have ${roomToReserve.quantity}  rooms from  this type At this time`}
+        if(willBeAvailable < createReservationDto.roomsNo) return {message:`we only have ${willBeAvailable}  rooms from  this type At this time`}
       }else{
         let available =  roomToReserve.quantity - currentlyReserved
         validRooms.forEach((element:CreateReservationDto) => {willBeAvailable+= element.roomsNo})
