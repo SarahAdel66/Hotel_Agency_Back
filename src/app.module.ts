@@ -24,7 +24,7 @@ import { ReservationModule } from './EndPoints/reservation/reservation.module';
     ReviewForRoomsModule,
     ReviewsForHotelModule,
     ReservationModule,
-    MongooseModule.forRoot('mongodb+srv://sarahadel263:8yuG7fLrqzbGFxcz@cluster0.ekxfmem.mongodb.net/hotelWebsite'),
+    MongooseModule.forRoot('mongodb+srv://sarahadel263:vzwlpEN5ceqTAuUl@cluster0.iate4lv.mongodb.net/hotelWebsite'),
     JwtModule.register({secret:"hotelSecret",signOptions:{expiresIn:"10d"}})    
   ],
   controllers: [AppController],
